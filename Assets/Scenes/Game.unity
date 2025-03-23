@@ -434,7 +434,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerPrefab: {fileID: 8463685920781663393, guid: d6eb9357efccdeb4e963e913dbc4412e, type: 3}
-  terrain: {fileID: 2130735415}
 --- !u!1 &676204815
 GameObject:
   m_ObjectHideFlags: 0
