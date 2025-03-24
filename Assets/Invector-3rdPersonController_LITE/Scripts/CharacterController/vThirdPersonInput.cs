@@ -23,6 +23,7 @@ namespace Invector.vCharacterController
 
         #endregion
 
+        [System.Obsolete]
         protected virtual void Start()
         {
             InitilizeController();
@@ -57,6 +58,7 @@ namespace Invector.vCharacterController
                 cc.Init();
         }
 
+        [System.Obsolete]
         protected virtual void InitializeTpCamera()
         {
             if (tpCamera == null)
