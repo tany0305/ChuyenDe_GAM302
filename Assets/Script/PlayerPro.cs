@@ -8,6 +8,8 @@ using System.Collections;
 public class PlayerPro : NetworkBehaviour
 {
     [Networked, OnChangedRender(nameof(OnInfoChanged))]
+    public string playerName {  get; set; }
+    [Networked, OnChangedRender(nameof(OnInfoChanged))]
     public int health { get; set; } = 100;
     [Networked, OnChangedRender(nameof(OnInfoChanged))]
     public int mana { get; set; } = 100;
