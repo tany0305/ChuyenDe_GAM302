@@ -133,8 +133,9 @@ GameObject:
   - component: {fileID: 130368855}
   - component: {fileID: 130368856}
   - component: {fileID: 130368857}
+  - component: {fileID: 130368858}
   m_Layer: 0
-  m_Name: Main Camera
+  m_Name: vThirdPersonCamera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -306,6 +307,38 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   CustomBlends: {fileID: 0}
+--- !u!114 &130368858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 130368851}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a1bfe72fbc87d04e885296b53e91c66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  smoothCameraRotation: 12
+  cullingLayer:
+    serializedVersion: 2
+    m_Bits: 1
+  lockCamera: 0
+  rightOffset: 0
+  defaultDistance: 2.5
+  height: 1.4
+  smoothFollow: 10
+  xMouseSensitivity: 3
+  yMouseSensitivity: 3
+  yMinLimit: -40
+  yMaxLimit: 80
+  indexList: 0
+  indexLookPoint: 0
+  offSetPlayerPivot: 0
+  currentStateName: 
+  currentTarget: {fileID: 0}
+  movementSpeed: {x: 0, y: 0}
 --- !u!1 &240474633
 GameObject:
   m_ObjectHideFlags: 0
@@ -473,7 +506,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &437005554
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -500,17 +533,17 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 437005553}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 01276f75aefccd246bbba011f1ea9bb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _malePlayerPrefab:
-    RawGuidValue: 00000000000000000000000000000000
+    RawGuidValue: d6eb9357efccdeb4e963e913dbc4412e
   _femalePlayerPrefab:
-    RawGuidValue: 00000000000000000000000000000000
+    RawGuidValue: 0bd9b66c7d34c9245847c9458c1a9f19
   _spawnPoints: []
-  _runner: {fileID: 0}
+  _runner: {fileID: 470836383}
   _sceneManager: {fileID: 0}
 --- !u!4 &437005556
 Transform:
@@ -539,6 +572,7 @@ GameObject:
   - component: {fileID: 470836383}
   - component: {fileID: 470836382}
   - component: {fileID: 470836385}
+  - component: {fileID: 470836386}
   m_Layer: 0
   m_Name: Prototype Runner
   m_TagString: Untagged
@@ -654,7 +688,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee4faa755c65c5c48b237cbf151b1c5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerPrefab: {fileID: 8463685920781663393, guid: d6eb9357efccdeb4e963e913dbc4412e, type: 3}
+  PlayerPrefab: {fileID: 1520126294771602937, guid: 0bd9b66c7d34c9245847c9458c1a9f19, type: 3}
+--- !u!114 &470836386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 470836381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8edbe7108d8a43ab838cf8b8d9453df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &676204815
 GameObject:
   m_ObjectHideFlags: 0

@@ -44,9 +44,9 @@ public class MainSceneManager : NetworkBehaviour, INetworkRunnerCallbacks
             GameMode = GameMode.Shared,
             SceneManager = _sceneManager,
             SessionName = sessionName,
-            PlayerCount = 5,
-            IsVisible = true,
-            IsOpen = true,
+            PlayerCount = 5, //số lượng người chơi
+            IsVisible = true, //hiển thị phiên hay không
+            IsOpen = true, //cho nhiều người chơi hay không
         };
 
         // Kết nối
@@ -98,7 +98,7 @@ public class MainSceneManager : NetworkBehaviour, INetworkRunnerCallbacks
             (r, obj) =>
             {
                 Debug.Log($"Player {playerName} spawned!");
-                obj.GetComponent<PlayerPro>().playerName =
+                obj.GetComponent<PlayerPro>().PlayerName =
                     playerName;
                 obj.GetComponent <MainSceneManager>()._runner = _runner;
             }
