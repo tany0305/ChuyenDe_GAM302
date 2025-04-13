@@ -3,24 +3,24 @@ using Fusion;
 using Fusion.Sockets;
 using System.Collections.Generic;
 using System;
-using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
 
 public class MainManager : NetworkBehaviour, INetworkRunnerCallbacks
 {
     public NetworkPrefabRef malePrefab;
     public NetworkPrefabRef femalePrefab;
 
-    public NetworkRunner runner;
+    public NetworkRunner _runner;
     public NetworkSceneManagerDefault sceneManager;
 
     void Awake()
     {
         // Tạo NetworkRunner nếu chưa có
-        if (runner == null)
+        if (_runner == null)
         {
             GameObject runnerObj = new GameObject("NetworkRunner");
-            runner = runnerObj.AddComponent<NetworkRunner>();
-            runner.AddCallbacks(this);
+            _runner = runnerObj.AddComponent<NetworkRunner>();
+            _runner.AddCallbacks(this);
             sceneManager = runnerObj.AddComponent<NetworkSceneManagerDefault>();
         }
 
@@ -31,7 +31,7 @@ public class MainManager : NetworkBehaviour, INetworkRunnerCallbacks
     async void ConnectToFusion()
     {
         Debug.Log("Connecting to Fusion Network...");
-        runner.ProvideInput = true;
+        _runner.ProvideInput = true;
         // Tên phiên cố định cho tất cả client
         string sessionName = "MyGameSession";
 
@@ -47,7 +47,7 @@ public class MainManager : NetworkBehaviour, INetworkRunnerCallbacks
         };
 
         // Kết nối
-        var result = await runner.StartGame(startGameArgs);
+        var result = await _runner.StartGame(startGameArgs);
         if (result.Ok)
         {
             Debug.Log("Connected to Fusion Network successfully!");
@@ -58,6 +58,38 @@ public class MainManager : NetworkBehaviour, INetworkRunnerCallbacks
         }
     }
 
+
+    private void Start()
+    {
+        InvokeRepeating(nameof(SpawnEnemy), 5, 5);
+    }
+    public NetworkPrefabRef[] EnemyPrefabRef;
+    public void SpawnEnemy()
+    {
+        var enemyPrefab = EnemyPrefabRef[Random.Range(0, EnemyPrefabRef.Length)];
+        var position = new Vector3(Random.Range(-10, 10), Random.Range(-10, 10));
+        var rotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
+
+        var enemy = _runner.Spawn(
+            enemyPrefab,
+            position,
+            rotation,
+            null,
+            (r, o) =>
+            {
+                Debug.Log("Enemy Spawmed: " + o);
+            }
+        );
+        Invoke(nameof(DeSpawnEnemy), 5);
+    } 
+    
+    void DeSpawnEnemy(NetworkObject enemy)
+    {
+        if (enemy != null)
+        {
+           _runner.Despawn(enemy);
+        }    
+    }    
     public void OnConnectedToServer(NetworkRunner runner)
     {
         
@@ -128,8 +160,7 @@ public class MainManager : NetworkBehaviour, INetworkRunnerCallbacks
             (r, o) =>
             {
                 Debug.Log($"Player spawned: " + o);
-            }
-            
+            }           
         );
     }
 

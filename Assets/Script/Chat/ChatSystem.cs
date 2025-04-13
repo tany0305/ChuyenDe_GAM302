@@ -33,7 +33,7 @@ public class ChatSystem : NetworkBehaviour
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void RpcChat(string msg)
     {
-        textMassage.text = msg + "\n";
+        textMassage.text += msg + "\n";
     }    
 
     

@@ -1230,7 +1230,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1333509591}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f125fe7fac25ede4998aa6eda3254e82, type: 3}
   m_Name: 
@@ -1239,8 +1239,11 @@ MonoBehaviour:
     RawGuidValue: 0bd9b66c7d34c9245847c9458c1a9f19
   femalePrefab:
     RawGuidValue: d6eb9357efccdeb4e963e913dbc4412e
-  runner: {fileID: 0}
+  _runner: {fileID: 0}
   sceneManager: {fileID: 0}
+  EnemyPrefabRef:
+  - RawGuidValue: 7cfccfaa206b85c4888b517030a629f5
+  - RawGuidValue: d2e53ab5cc84115469f8f3c7169b1751
 --- !u!114 &1333509594
 MonoBehaviour:
   m_ObjectHideFlags: 0
