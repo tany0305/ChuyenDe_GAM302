@@ -1,117 +1,90 @@
 ﻿using UnityEngine;
 using Fusion;
 using TMPro;
+using UnityEngine.AI;
 
 public class BossAI : NetworkBehaviour
 {
-    [Header("Stats")]
-    [Networked, OnChangedRender(nameof(OnHealthChanged))]
-    public float currentHealth { get; set; }
+    [Header("Movement")]
+    public float patrolRadius = 10f;
+    public float patrolWaitTime = 2f;
 
-    [Networked, OnChangedRender(nameof(OnHealthChanged))]
-    public float maxHealth { get; set; } = 200f;
+    [Header("Health")]
+    public int maxHealth = 100;
+    private int currentHealth;
 
-    [Header("UI")]
-    public Canvas healthCanvas;
-    public TextMeshProUGUI healthText; // TextMeshPro để hiển thị HP
-
+    private NavMeshAgent agent;
     private Animator anim;
-    private Transform targetPlayer;
-    private bool isAttacking = false;
+    private float patrolTimer;
+    private Vector3 spawnPosition;
+
+    public TMP_Text healthText;
 
     public override void Spawned()
     {
         anim = GetComponent<Animator>();
-        currentHealth = maxHealth;
+        agent = GetComponent<NavMeshAgent>();
+
+        spawnPosition = transform.position; // Lưu lại vị trí gốc
+        SetNewPatrolDestination();
+
+        currentHealth = maxHealth; // Thiết lập máu ban đầu
+        UpdateHealthText(); // Cập nhật hiển thị máu ban đầu
     }
 
     public override void FixedUpdateNetwork()
     {
-        if (!Object.HasStateAuthority || targetPlayer == null) return;
+        if (!Object.HasStateAuthority) return;
 
-        float distance = Vector3.Distance(transform.position, targetPlayer.position);
-
-        // Kiểm tra nếu boss ở gần player để tấn công
-        if (distance <= 2f) // Phạm vi tấn công
+        if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
         {
-            if (!isAttacking)
+            patrolTimer += Time.deltaTime;
+            if (patrolTimer >= patrolWaitTime)
             {
-                isAttacking = true;
-                anim.SetTrigger("Attack");
+                SetNewPatrolDestination();
+                patrolTimer = 0f;
             }
+            anim.SetBool("IsMoving", false);
         }
         else
         {
-            isAttacking = false;
             anim.SetBool("IsMoving", true);
-            MoveToPlayer(); // Di chuyển đến player
         }
-
-        UpdateHealthUI(); // Cập nhật thông tin HP lên UI
-        UpdateUIFacing(); // Đảm bảo Canvas hướng về camera
     }
 
-    void MoveToPlayer()
+    void SetNewPatrolDestination()
     {
-        if (targetPlayer != null)
+        Vector2 randomPoint = Random.insideUnitCircle * patrolRadius;
+        Vector3 destination = spawnPosition + new Vector3(randomPoint.x, 0, randomPoint.y);
+
+        if (NavMesh.SamplePosition(destination, out NavMeshHit hit, 2f, NavMesh.AllAreas))
         {
-            transform.position = Vector3.MoveTowards(transform.position, targetPlayer.position, 2f * Time.deltaTime); // Di chuyển đến player
+            agent.SetDestination(hit.position);
         }
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (!Object.HasStateAuthority) return;
-        if (other.CompareTag("Player") && targetPlayer == null)
-        {
-            targetPlayer = other.transform;
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (!Object.HasStateAuthority) return;
-        if (other.CompareTag("Player") && other.transform == targetPlayer)
-        {
-            targetPlayer = null;
-            anim.SetBool("IsMoving", false);
-        }
-    }
-
-    // RPC để nhận sát thương và trừ HP
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
     public void RpcTakeDamage(int dmg)
     {
-        currentHealth = Mathf.Max(currentHealth - dmg, 0f); // Trừ HP khi nhận sát thương
+        if (currentHealth <= 0) return; // Nếu đã chết thì không trừ máu nữa
+
+        currentHealth = Mathf.Max(currentHealth - dmg, 0);
+        anim.SetTrigger("TakeDamage");
+
+        UpdateHealthText(); // Cập nhật lại máu sau khi bị trừ
+
         if (currentHealth <= 0)
         {
             anim.SetTrigger("Die");
-            Runner.Despawn(Object); // Khi chết, despawn đối tượng
+            Runner.Despawn(Object);
         }
     }
 
-    // Hàm cập nhật TextMeshPro khi HP thay đổi
-    void UpdateHealthUI()
+    void UpdateHealthText()
     {
         if (healthText != null)
         {
-            healthText.text = $"{Mathf.CeilToInt(currentHealth)} / {Mathf.CeilToInt(maxHealth)}"; // Cập nhật TextMeshPro với HP
+            healthText.text = $"Health: {currentHealth}/{maxHealth}"; // Cập nhật giá trị máu
         }
-    }
-
-    // Cập nhật hướng nhìn của Canvas về phía Camera
-    void UpdateUIFacing()
-    {
-        if (healthCanvas != null && Camera.main != null)
-        {
-            healthCanvas.transform.LookAt(Camera.main.transform);
-            healthCanvas.transform.rotation = Quaternion.LookRotation(Camera.main.transform.forward);
-        }
-    }
-
-    // Hàm này gọi khi HP thay đổi, sẽ làm cho UI được cập nhật
-    private void OnHealthChanged()
-    {
-        UpdateHealthUI(); // Cập nhật UI mỗi khi HP thay đổi
     }
 }

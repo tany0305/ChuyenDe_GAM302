@@ -16,5 +16,17 @@ public class WeaponManager : NetworkBehaviour
                 Debug.Log("Sword hit opponent! Damage dealt: " + 10);
             }
         }
+
+        // Kiểm tra xem đối tượng va chạm có phải là boss không
+        if (other.CompareTag("Boss"))
+        {
+            BossAI bossAI = other.GetComponent<BossAI>();
+            if (bossAI != null)
+            {
+                // Gọi RPC để boss nhận sát thương
+                bossAI.RpcTakeDamage(10); // Ví dụ: Sát thương là 10
+                Debug.Log("Sword hit boss! Damage dealt: " + 10);
+            }
+        }
     }
 }

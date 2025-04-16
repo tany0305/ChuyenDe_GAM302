@@ -38,7 +38,6 @@ public class BossSpawner : NetworkBehaviour
 
         // Lấy BossAI từ boss để thiết lập máu
         BossAI bossAI = boss.GetComponent<BossAI>();
-        bossAI.currentHealth = bossAI.maxHealth;
     }
 
     // Có thể gọi hàm này từ đâu đó trong game để spawn boss
