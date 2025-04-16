@@ -16,10 +16,9 @@ public class PlayerPro : NetworkBehaviour
     public string PlayerName {  get; set; }
     [Networked, OnChangedRender(nameof(OnInfoChanged))]
     public int Health { get; set; } = 100;
-    //[Networked, OnChangedRender(nameof(OnInfoChanged))]
-    //public int mana { get; set; } = 100;
-    //[Networked, OnChangedRender(nameof(OnInfoChanged))]
-    //public int score { get; set; } = 0;
+
+    [Networked, OnChangedRender(nameof(OnInfoChanged))]
+    public int MaxHealth { get; set; } = 100;
 
     Animator anim;
     [Networked, OnChangedRender(nameof(OnAnimationChanged))]
@@ -28,13 +27,7 @@ public class PlayerPro : NetworkBehaviour
     public GameObject Weapon;
 
     public TextMeshProUGUI nameText;
-    public Slider sliderHealth;
-    //public Slider sliderMana;
-    //public TextMeshProUGUI scoreText;
-   
-
-    public GameObject loseGame;
-    public GameObject winGame;
+    public TextMeshProUGUI healthText;
 
     private void OnAnimationChanged()
     {
@@ -44,9 +37,7 @@ public class PlayerPro : NetworkBehaviour
     private void OnInfoChanged()
     {
         nameText.text = PlayerName;
-        sliderHealth.value = Health;
-        //sliderMana.value = mana;
-        //scoreText.text = score + "";
+        healthText.text = $"Health: {Health} / {MaxHealth}";
     }
     void Start()
     {
@@ -54,10 +45,6 @@ public class PlayerPro : NetworkBehaviour
         FollowCamera = FindFirstObjectByType<CinemachineCamera>();
     }
 
-    //public override void Spawned()
-    //{
-       
-    //}
     public override void FixedUpdateNetwork()
     {
         base.Spawned();
@@ -77,9 +64,6 @@ public class PlayerPro : NetworkBehaviour
         {
             if (Input.GetMouseButtonDown(1))
             {
-                //health -= 10;
-                //mana -= 10;
-                //score += 10;
                 Slash = !Slash;
                 Weapon.GetComponent<BoxCollider>().enabled = true;
             }
@@ -94,13 +78,14 @@ public class PlayerPro : NetworkBehaviour
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
     public void RpcTakeDamage(int damage)
     {
-        Health -= damage;  // Giảm sức khỏe khi nhận sát thương
+        Health -= damage;
         Debug.Log("Player received damage. Health: " + Health);
 
         if (Health <= 0)
         {
-           // Die();
         }
+        // Cập nhật lại hiển thị máu
+        healthText.text = $"Health: {Health} / {MaxHealth}";
     }
 }
 

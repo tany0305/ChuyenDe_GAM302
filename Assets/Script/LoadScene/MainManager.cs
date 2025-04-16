@@ -51,6 +51,7 @@ public class MainManager : NetworkBehaviour, INetworkRunnerCallbacks
         if (result.Ok)
         {
             Debug.Log("Connected to Fusion Network successfully!");
+            isConnected = true;
         }
         else
         {
@@ -61,11 +62,18 @@ public class MainManager : NetworkBehaviour, INetworkRunnerCallbacks
 
     private void Start()
     {
-        InvokeRepeating(nameof(SpawnEnemy), 5, 5);
+        InvokeRepeating(nameof(SpawnEnemy), 2, 2);
     }
     public NetworkPrefabRef[] EnemyPrefabRef;
+    //private NetworkObject _spawnEnemy;
+    private bool isConnected = false;
     public void SpawnEnemy()
     {
+        if (!isConnected || EnemyPrefabRef == null || EnemyPrefabRef.Length == 0)
+        {
+            Debug.LogWarning("Không thể spawn enemy: chưa kết nối hoặc EnemyPrefabRef bị null.");
+            return;
+        }
         var enemyPrefab = EnemyPrefabRef[Random.Range(0, EnemyPrefabRef.Length)];
         var position = new Vector3(Random.Range(-10, 10), Random.Range(-10, 10));
         var rotation = Quaternion.Euler(0, Random.Range(0, 360), 0);

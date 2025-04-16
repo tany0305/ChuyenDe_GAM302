@@ -15,6 +15,11 @@ public class CharacterNetworkHandler : NetworkBehaviour
         controller = GetComponent<vThirdPersonController>();
         input = GetComponent<vThirdPersonInput>();
 
+        if (controller == null)
+            Debug.LogError("vThirdPersonController is NULL on " + gameObject.name);
+        if (input == null)
+            Debug.LogError("vThirdPersonInput is NULL on " + gameObject.name);
+
         if (!Object.HasInputAuthority)
         {
             // Tắt input với player không phải local
@@ -54,5 +59,14 @@ public class CharacterNetworkHandler : NetworkBehaviour
                 jumpCount++; // Nhảy xong thì tăng đếm
             }
         }
+    }
+
+    private void CheckComponents()
+    {
+        controller = GetComponent<vThirdPersonController>();
+        input = GetComponent<vThirdPersonInput>();
+
+        if (controller == null || input == null)
+            Debug.LogError($"[CharacterNetworkHandler] Missing components on {gameObject.name}");
     }
 }
