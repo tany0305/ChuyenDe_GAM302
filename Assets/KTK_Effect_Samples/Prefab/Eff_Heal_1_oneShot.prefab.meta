@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 4bc8dc28f9ba24e57a0d84aa5db5e48d
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 25081
+  packageName: KTK Effect Sample Set
+  packageVersion: 1.1
+  assetPath: Assets/KTK_Effect_Samples/Prefab/Eff_Heal_1_oneShot.prefab
+  uploadId: 747339

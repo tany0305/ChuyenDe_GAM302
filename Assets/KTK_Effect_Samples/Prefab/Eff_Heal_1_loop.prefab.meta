@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 0a8187effeee2443b9b361d58bfe2ba8
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 25081
+  packageName: KTK Effect Sample Set
+  packageVersion: 1.1
+  assetPath: Assets/KTK_Effect_Samples/Prefab/Eff_Heal_1_loop.prefab
+  uploadId: 747339

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: d6ebb0ab3f51846fdbe1ebd88c5a39e0
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 25081
+  packageName: KTK Effect Sample Set
+  packageVersion: 1.1
+  assetPath: Assets/KTK_Effect_Samples/Prefab/Eff_Aura_1_loop.prefab
+  uploadId: 747339

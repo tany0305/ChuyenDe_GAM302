@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: c336fee2e55784686950c68ddf95fc3a
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 25081
+  packageName: KTK Effect Sample Set
+  packageVersion: 1.1
+  assetPath: Assets/KTK_Effect_Samples/Materials/eff_smoke_2.mat
+  uploadId: 747339

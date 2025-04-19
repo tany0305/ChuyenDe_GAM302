@@ -10,6 +10,12 @@ public class CharacterNetworkHandler : NetworkBehaviour
     private int jumpCount = 0;
     private int maxJumps = 2; // Cho phép nhảy 2 lần
 
+    public AudioSource audioSource;
+    public AudioClip footstepClip;
+    public AudioClip jumpClip;
+    private float footstepTimer = 0f;
+    private float footstepInterval = 0.4f;
+
     public override void Spawned()
     {
         controller = GetComponent<vThirdPersonController>();
@@ -25,6 +31,8 @@ public class CharacterNetworkHandler : NetworkBehaviour
             // Tắt input với player không phải local
             input.enabled = false;
         }
+        if (audioSource == null)
+            audioSource = GetComponent<AudioSource>();
     }
 
     public override void FixedUpdateNetwork()
@@ -37,12 +45,44 @@ public class CharacterNetworkHandler : NetworkBehaviour
 
             // Gửi input lên mạng
             RPC_SetInput(moveInput, jumpInput);
+
+            // Phát âm thanh bước chân nếu đang chạy và chạm đất
+            if (controller != null && controller.isGrounded && moveInput.magnitude > 0.1f)
+            {
+                footstepTimer += Time.deltaTime;
+                if (footstepTimer >= footstepInterval)
+                {
+                    PlayFootstepSound();
+                    footstepTimer = 0f;
+                }
+            }
+            else
+            {
+                footstepTimer = 0f;
+            }
         }
 
         // Kiểm tra nếu đã chạm đất => reset jump count
         if (controller != null && controller.isGrounded && jumpCount > 0)
         {
             jumpCount = 0;
+        }
+
+    }
+
+    private void PlayFootstepSound()
+    {
+        if (audioSource != null && footstepClip != null)
+        {
+            audioSource.PlayOneShot(footstepClip);
+        }
+    }
+
+    private void PlayJumpSound()
+    {
+        if (audioSource != null && jumpClip != null)
+        {
+            audioSource.PlayOneShot(jumpClip);
         }
     }
 
@@ -57,6 +97,7 @@ public class CharacterNetworkHandler : NetworkBehaviour
             {
                 controller.Jump();
                 jumpCount++; // Nhảy xong thì tăng đếm
+                PlayJumpSound();
             }
         }
     }

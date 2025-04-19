@@ -196,6 +196,14 @@ public class MainManager : NetworkBehaviour, INetworkRunnerCallbacks
             (r, o) =>
             {
                 Debug.Log($"Player spawned: " + o);
+                var playerData = new PlayerData()
+                {
+                    PlayerName = playerName,
+                    PlayerClass = playerClass,
+                    Health = 100 // hoặc lấy từ script máu nếu có
+                };
+
+                GameData.SavePlayerData(playerData);
             }
         );
         // Đổi lượt cho người chơi tiếp theo

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 13fced8a2b54446f987511d3e5635486
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 25081
+  packageName: KTK Effect Sample Set
+  packageVersion: 1.1
+  assetPath: Assets/KTK_Effect_Samples/Materials/eff_stone_1.mat
+  uploadId: 747339

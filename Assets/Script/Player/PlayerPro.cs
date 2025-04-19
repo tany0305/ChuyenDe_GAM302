@@ -20,18 +20,34 @@ public class PlayerPro : NetworkBehaviour
     [Networked, OnChangedRender(nameof(OnInfoChanged))]
     public int MaxHealth { get; set; } = 100;
 
-    Animator anim;
     [Networked, OnChangedRender(nameof(OnAnimationChanged))]
     public bool Slash { get; set; } = false;
 
+    Animator anim;
+    AudioSource audioSource;
+    
     public GameObject Weapon;
 
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI healthText;
+    public AudioClip slashClip;
+    private bool isSlashing = false;
+    //public AudioClip moveClip;
 
     private void OnAnimationChanged()
     {
         anim.SetTrigger("Slash");
+        // Phát âm thanh nếu không đang trong hoạt ảnh Slash
+        if (!isSlashing && audioSource != null && slashClip != null)
+        {
+            audioSource.PlayOneShot(slashClip);
+            isSlashing = true;
+        }
+    }
+    private IEnumerator DelayUIUpdate()
+    {
+        yield return new WaitForSeconds(0.2f);
+        OnInfoChanged();
     }
 
     private void OnInfoChanged()
@@ -43,6 +59,14 @@ public class PlayerPro : NetworkBehaviour
     {
         anim = gameObject.GetComponent<Animator>();
         FollowCamera = FindFirstObjectByType<CinemachineCamera>();
+        audioSource = GetComponent<AudioSource>();
+        if (Object.HasStateAuthority)
+        {
+            // Gán lại để trigger OnChangedRender
+            PlayerName = PlayerName;
+            Health = Health;
+            MaxHealth = MaxHealth;
+        }
     }
 
     public override void FixedUpdateNetwork()
@@ -66,6 +90,10 @@ public class PlayerPro : NetworkBehaviour
             {
                 Slash = !Slash;
                 Weapon.GetComponent<BoxCollider>().enabled = true;
+
+                
+                // Gọi hàm phát âm thanh chém
+                PlaySound(slashClip);
             }
             else if (Input.GetMouseButtonUp(1))
             {
@@ -73,6 +101,14 @@ public class PlayerPro : NetworkBehaviour
             }
         }
 
+    }
+
+    private void PlaySound(AudioClip clip)
+    {
+        if (audioSource != null && clip != null)
+        {
+            audioSource.PlayOneShot(clip);
+        }
     }
 
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
@@ -83,9 +119,14 @@ public class PlayerPro : NetworkBehaviour
 
         if (Health <= 0)
         {
+            Debug.Log("Player is dead. Stopping the game...");
+
+            // Dừng toàn bộ thời gian game
+            Time.timeScale = 0f;
         }
         // Cập nhật lại hiển thị máu
         healthText.text = $"Health: {Health} / {MaxHealth}";
     }
+
 }
 

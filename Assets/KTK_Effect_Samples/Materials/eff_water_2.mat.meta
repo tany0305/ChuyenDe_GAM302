@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: abccc7f38ceed40618f7517cc3df3636
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 25081
+  packageName: KTK Effect Sample Set
+  packageVersion: 1.1
+  assetPath: Assets/KTK_Effect_Samples/Materials/eff_water_2.mat
+  uploadId: 747339

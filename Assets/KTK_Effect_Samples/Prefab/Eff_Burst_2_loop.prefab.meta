@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: c84922bb380a64ef6b5ac6b263070d52
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 25081
+  packageName: KTK Effect Sample Set
+  packageVersion: 1.1
+  assetPath: Assets/KTK_Effect_Samples/Prefab/Eff_Burst_2_loop.prefab
+  uploadId: 747339

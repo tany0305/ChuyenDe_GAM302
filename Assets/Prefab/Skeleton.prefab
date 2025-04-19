@@ -1020,6 +1020,8 @@ GameObject:
   - component: {fileID: 8095271113451459175}
   - component: {fileID: 4195622628052448891}
   - component: {fileID: 3868672996458460972}
+  - component: {fileID: 2467259913802252149}
+  - component: {fileID: 6751462053333000594}
   m_Layer: 0
   m_Name: PT_Sword_01_a
   m_TagString: Untagged
@@ -1036,8 +1038,8 @@ Transform:
   m_GameObject: {fileID: 1902957639170064119}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7983498, y: 0.11814838, z: 0.117847465, w: 0.57861096}
-  m_LocalPosition: {x: -0.094, y: -0.036, z: 0.026}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -0.0957, y: -0.0366, z: 0.0259}
+  m_LocalScale: {x: 0.9801, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5366160133577082541}
@@ -1095,6 +1097,39 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &2467259913802252149
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1902957639170064119}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Size: {x: 0.07109502, y: 0.80533487, z: 0.021986902}
+  m_Center: {x: -0.0001432078, y: -0.32237414, z: 0.000000285191}
+--- !u!114 &6751462053333000594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1902957639170064119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 682250fd299f4a14fb13218527152d6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2060241053397125390
 GameObject:
   m_ObjectHideFlags: 0
@@ -2543,6 +2578,7 @@ GameObject:
   - component: {fileID: 2097480714874353489}
   - component: {fileID: 7323581982077434091}
   - component: {fileID: 72219659190148335}
+  - component: {fileID: 5781261170203040791}
   m_Layer: 0
   m_Name: Skeleton
   m_TagString: Boss
@@ -2638,6 +2674,7 @@ MonoBehaviour:
   - {fileID: 2097480714874353489}
   - {fileID: 7323581982077434091}
   - {fileID: 72219659190148335}
+  - {fileID: 6751462053333000594}
   ForceRemoteRenderTimeframe: 0
 --- !u!114 &6621187034528805742
 MonoBehaviour:
@@ -2693,8 +2730,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   patrolRadius: 10
   patrolWaitTime: 2
+  detectionRadius: 5
+  attackCooldown: 2
+  attackDamage: 20
   maxHealth: 100
   healthText: {fileID: 4668038758642352213}
+  weaponCollider: {fileID: 1902957639170064119}
 --- !u!114 &7323581982077434091
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2725,6 +2766,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnCollider: {fileID: 0}
+--- !u!65 &5781261170203040791
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4731049083124653550}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 8
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 8
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 10, y: 2.9815533, z: 10}
+  m_Center: {x: 0, y: 1.6392689, z: 0}
 --- !u!1 &4773479773250023286
 GameObject:
   m_ObjectHideFlags: 0

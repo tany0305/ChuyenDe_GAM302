@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 06cff0f24d5664781859b6da3e421fa4
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 25081
+  packageName: KTK Effect Sample Set
+  packageVersion: 1.1
+  assetPath: Assets/KTK_Effect_Samples/Prefab/Eff_Burst_2_oneShot.prefab
+  uploadId: 747339

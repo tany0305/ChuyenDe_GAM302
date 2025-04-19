@@ -1,50 +1,72 @@
 ﻿using System;
 using System.IO;
 using UnityEngine;
+using System.Collections.Generic;
 
-
-//A. lưu offline( lưu trên máy người chơi)
-//-playerprefs
-//--chõ lưu không giống nhau tùy theo hệ điều hành
-//--lưu được các kiểu dữ liệu cơ bản như int, string, float
-//-Lưu file txt, json
-//--lưu được các kiểu dũ liệu phực tạp như List, Dictionary
-//--chỗ lưu là địa chỉ quy định
 public class GameData
 {
-    public static void SavePlayerData1(PlayerData playerData)
+    public static void SavePlayerData(PlayerData newPlayerData)
     {
-        var json = JsonUtility.ToJson(playerData);
-        PlayerPrefs.SetString("PlayerData", json);
+        string path = @"G:\tany\hoctap\ky5\Game Online\playerData.json";
+
+        List<PlayerData> dataList = new List<PlayerData>();
+
+        if (File.Exists(path))
+        {
+            string json = File.ReadAllText(path);
+            try
+            {
+                PlayerDataListWrapper wrapper = JsonUtility.FromJson<PlayerDataListWrapper>(json);
+                if (wrapper != null && wrapper.PlayerList != null)
+                    dataList = wrapper.PlayerList;
+            }
+            catch (Exception e)
+            {
+                Debug.LogError("Lỗi đọc JSON: " + e.Message);
+            }
+        }
+
+        dataList.Add(newPlayerData);
+
+        PlayerDataListWrapper newWrapper = new PlayerDataListWrapper() { PlayerList = dataList };
+        string newJson = JsonUtility.ToJson(newWrapper, true);
+        File.WriteAllText(path, newJson);
+
+        Debug.Log("Đã lưu dữ liệu mới. Tổng: " + dataList.Count);
     }
 
-    public static PlayerData Load1()
+    public static List<PlayerData> LoadPlayerData()
     {
-        var json = PlayerPrefs.GetString("PlayerData");
-        if (string.IsNullOrEmpty(json))
+        var path = @"G:\tany\hoctap\ky5\Game Online\playerData.json"; // sửa lại cho đúng tên file lưu
+        if (File.Exists(path))
         {
-            return null;
+            try
+            {
+                var json = File.ReadAllText(path);
+                var wrapper = JsonUtility.FromJson<PlayerDataListWrapper>(json);
+                return wrapper.PlayerList;
+            }
+            catch (Exception e)
+            {
+                Debug.LogError("Lỗi tải dữ liệu: " + e.Message);
+            }
+        }
+        else
+        {
+            Debug.LogWarning("File dữ liệu người chơi không tồn tại.");
         }
 
-        return JsonUtility.FromJson<PlayerData>(json);
+        return new List<PlayerData>();
     }
-
-    /*public static void SavePlayerData2(PlayerData playerData)
-    {
-        try
-        {
-            var json = JsonUtility.ToJson(playerData);
-            var path = Application.persistentDataPath + "?playerData.json";
-            System.IO.File.WriteAllText(path, json);
-        }
-        catch(Exception e)
-        {
-            Debug.Log(e);
-        }
-    }*/
 }
 
-[SerializeField]
+[Serializable]
+public class PlayerDataListWrapper
+{
+    public List<PlayerData> PlayerList = new List<PlayerData>();
+}
+
+[Serializable] // sửa lại chỗ này nè chồng
 public class PlayerData
 {
     public string PlayerName;

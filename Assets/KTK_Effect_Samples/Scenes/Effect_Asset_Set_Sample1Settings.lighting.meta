@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: d84430b35d8b20341a9628c4cdcd7c5b
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 4890085278179872738
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 25081
+  packageName: KTK Effect Sample Set
+  packageVersion: 1.1
+  assetPath: Assets/KTK_Effect_Samples/Scenes/Effect_Asset_Set_Sample1Settings.lighting
+  uploadId: 747339
